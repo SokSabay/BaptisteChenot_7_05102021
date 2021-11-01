@@ -1,18 +1,14 @@
-const db = require("../config/db");
-const DataTypes = require("sequelize");
- 
+// const db = require("../config/db");
+// const DataTypes = require("sequelize");
+
+
+
 // Define schema
-const Post = db.define(
+module.exports = (sequelize, DataTypes) => {
+const Post = sequelize.define(
   "posts",
   {
-    // Define attributes
-    // id: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: true,
-    // },
-    idUser:{
-
-    },
+ 
     title: {
       type: DataTypes.STRING(50),
       allowNull: false,
@@ -27,13 +23,27 @@ const Post = db.define(
       allowNull: false,
       // allowNull defaults to true
     },
+
+    createdAt: {
+      allowNull: false,
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+      allowNull: false,
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
   },
   {
     // Freeze Table Name
     // freezeTableName: true
-    timestamps: false,
+    // timestamps: false,
   }
 );
- 
+return Post;
+}
+
 // Export model Product
-module.exports = Post;
+// module.exports = Post;
+

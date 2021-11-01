@@ -1,6 +1,7 @@
 require("dotenv").config();
-// const mysql = require("mysql2");
+
 const Sequelize = require("sequelize");
+const { DataTypes, Op } = Sequelize;
 
 const sequelize = new Sequelize(
   process.env.DB_NAME,
@@ -11,6 +12,20 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST,
   }
 );
+// const sequelize = new Sequelize("groupomania", "root", "ZeClown3011", {
+//   host: "localhost",
+//   dialect: "mysql",
+// });
+
+
+
+
+sequelize
+  .sync({ altre: true })
+  .then(() => {})
+  .catch((err) => {
+    console.log(err);
+  });
 
 module.exports = sequelize;
 const databaseConnectionTest = async () => {
@@ -28,11 +43,6 @@ databaseConnectionTest();
 // sequelize.query("show tables").then(function (rows) {
 //   console.log((rows));
 // });
-sequelize.query("SELECT * FROM `users`").then(function (rows) {
-  console.log(rows);
-});
-
-
-
-
-  
+// sequelize.query("SELECT * FROM `users`").then(function (rows) {
+//   console.log(rows);
+// });
