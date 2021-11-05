@@ -7,15 +7,15 @@ const Post = db.posts;
 const User = db.users;
 // Get all products
 
-exports.addPost = (req, res) => {
- 
+exports.addPost = async (req, res) => {
+ console.log(req.body);
   Post.create({
     title: req.body.title,
     content: req.body.content,
     attachment: req.body.attachment,
-    // userId : req.User.id,
+    userId: req.body.id
   })
-  .then(() => {
+    .then(() => {
       res.status(201).send({ message: "💾 Article enregistré ✔️" });
     })
     .catch((err) => {
@@ -27,7 +27,8 @@ exports.addPost = (req, res) => {
   //   await Post.create({
   //     title: req.body.title,
   //     content: req.body.content,
-  //     attachment: req.body.content
+  //     attachment: req.body.content,
+  //     id: req.body.userId
   //   });
   //   res.json({
   //     message: "Product Created",

@@ -9,22 +9,23 @@ db.sequelize = sequelize;
 
 db.users = require("./User.js")(sequelize, Sequelize);
 db.posts = require("./Post.js")(sequelize, Sequelize);
+db.messages = require("./Message.js")(sequelize, Sequelize);
 
 // db.users.hasMany(db.posts, { as: "posts" });
 // db.posts.belongsTo(db.users, {
 //   foreignKey: "userId",
-//   as: "post",
+//   as: "users",
 // });
 
 
 db.users.hasMany(db.posts);
 db.posts.belongsTo(db.users);
 
-// db.posts.hasMany(db.comments);
-// db.comments.belongsTo(db.posts);
+db.posts.hasMany(db.messages);
+db.messages.belongsTo(db.posts);
 
-// db.users.hasMany(db.comments);
-// db.comments.belongsTo(db.users);
+db.users.hasMany(db.messages);
+db.messages.belongsTo(db.users);
 
 db.sequelize.sync({ alter: true });
 

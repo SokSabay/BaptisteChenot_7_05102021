@@ -1,4 +1,5 @@
-const Message = require("../models/Message");
+const db = require("../models/");
+const Message = db.messages;
 
 exports.addMessage = (req, res, next) => {
   console.log("test");

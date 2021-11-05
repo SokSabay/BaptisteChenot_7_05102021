@@ -36,9 +36,14 @@ exports.login = (req, res, next) => {
           if (!valid) {
             return res.status(401).json({ error: "Mot de passe incorrect !" });
           }
+          // res.cookie("jwt", jwt.sign({ userId: user.id }, randomToken, {
+          //     expiresIn: "24h",
+          //   }));
           res.status(200).json({
-            userId: user._id,
-            token: jwt.sign({ userId: user._id }, randomToken, {
+            userId: user.id,
+            email: user.email,
+            username: user.username,
+            token: jwt.sign({ userId: user.id }, randomToken, {
               expiresIn: "24h",
             }),
             error: "Bien ouej'! Tu es maintenant connecté",

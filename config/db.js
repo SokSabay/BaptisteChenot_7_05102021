@@ -12,11 +12,6 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST,
   }
 );
-// const sequelize = new Sequelize("groupomania", "root", "ZeClown3011", {
-//   host: "localhost",
-//   dialect: "mysql",
-// });
-
 
 
 
