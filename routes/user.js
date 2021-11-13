@@ -7,5 +7,6 @@ router.post("/signup", userCtrl.signup);
 router.post("/login", userCtrl.login);
 router.get("/", userCtrl.getAllUser);
 router.get("/:id", userCtrl.getOneUser);
+router.put("/:id", userCtrl.modifyUser)
 module.exports = router;
 // console.log(module.exports);

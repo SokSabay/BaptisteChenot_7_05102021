@@ -82,3 +82,23 @@ exports.getOneUser = (req, res, next) => {
       });
     });
 };
+
+exports.modifyUser = async (req, res) => {
+  try {
+    await User.update(req.body, {
+      where: {
+        id: req.params.id,
+      },
+    });
+    res.json({
+      message: "User Updated",
+    });
+  } catch (err) {
+    console.log(err);
+     if (err.code === "ER_DUP_ENTRY") {
+       //handleHttpErrors(SYSTEM_ERRORS.USER_ALREADY_EXISTS);
+     } else {
+       //handleHttpErrors(err.message);
+     }
+  }
+};

@@ -63,4 +63,19 @@ exports.modifyComment = async (req, res) => {
     console.log(err);
   }
 };
-exports.deleteMessage = (req, res, next) => {};
+
+exports.deleteComment = async (req, res) => {
+  try {
+    await Message.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+    res.json({
+      message: "Comment Deleted",
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
