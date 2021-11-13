@@ -7,11 +7,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(50),
         allowNull: false,
       },
-      content: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        // allowNull defaults to true
-      },
+      // content: {
+      //   type: DataTypes.STRING,
+      //   allowNull: false,
+      //   // allowNull defaults to true
+      // },
       attachment: {
         type: DataTypes.STRING(120),
         allowNull: false,

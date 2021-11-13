@@ -6,8 +6,6 @@ const jwt = require("jsonwebtoken");
 const db = require("../models/");
 const User = db.users;
 
-
-
 exports.signup = (req, res, next) => {
   bcrypt
     .hash(req.body.password, 10)
@@ -36,9 +34,6 @@ exports.login = (req, res, next) => {
           if (!valid) {
             return res.status(401).json({ error: "Mot de passe incorrect !" });
           }
-          // res.cookie("jwt", jwt.sign({ userId: user.id }, randomToken, {
-          //     expiresIn: "24h",
-          //   }));
           res.status(200).json({
             userId: user.id,
             email: user.email,
@@ -52,4 +47,38 @@ exports.login = (req, res, next) => {
         .catch((error) => res.status(500).json({ error }));
     })
     .catch((error) => res.status(500).json({ error }));
+};
+
+exports.getAllUser = (req, res, next) => {
+  console.log("📋  Liste des utilisateurs demandée 📜");
+  User.findAll()
+    .then((data) => {
+      res.send(data);
+    })
+    .then(console.log("📡 📜  Liste envoyée ✔️"))
+    .catch(() => {
+      res.status(500).send({
+        message:
+          "💥 Erreur interne au serveur 💥 ECHEC RECUPERATION DES ARTICLES 💥",
+      });
+    });
+};
+
+exports.getOneUser = (req, res, next) => {
+  User.findOne({
+    where: { id: req.params.id },
+  })
+    .then((data) => {
+      if (!data) {
+        res.send({ message: "⚠️ Utilisateur(s) inexistant(s) ⚠️" });
+      } else {
+        res.send(data);
+      }
+    })
+    .catch(() => {
+      res.status(500).send({
+        message:
+          "💥 Erreur interne au serveur 💥 ECHEC RECUPERATION DES ARTICLES 💥",
+      });
+    });
 };

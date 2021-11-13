@@ -17,13 +17,12 @@ app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 
 app.use(bodyParser.json());
 
-app.get("/jwtid", requireAuth, (req, res) => {
-  res.status(200).send(res.locals.user._id);
-});
 
 app.use("/api/auth", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/messages", messageRoutes);
+
+
 // app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.listen(process.env.PORT, () => {

@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const Sequelize = require("sequelize");
-const { DataTypes, Op } = Sequelize;
+
 
 const sequelize = new Sequelize(
   process.env.DB_NAME,
@@ -15,12 +15,12 @@ const sequelize = new Sequelize(
 
 
 
-sequelize
-  .sync({ altre: true })
-  .then(() => {})
-  .catch((err) => {
-    console.log(err);
-  });
+// sequelize
+//   .sync({ altre: true })
+//   .then(() => {})
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
 module.exports = sequelize;
 const databaseConnectionTest = async () => {
