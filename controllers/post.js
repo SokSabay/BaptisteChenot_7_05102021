@@ -2,23 +2,37 @@
 
 const db = require("../models/");
 
-
 const Post = db.posts;
 const User = db.users;
 // Get all products
+// exports.addPost = async (req, res) => {
+//   const postObject = JSON.parse(req.body.post);
+//   delete postObject.id;
+//   const post = new Post({
+//     ...postObject,
+//     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.imageUrl}`
+//   });
+
+//   post.save()
+//   .then(() => res.status(201).json({ message: "Objet enregistré !" }))
+//   .catch((error) => res.status(400).json({ error }));
+
+// }
 
 exports.addPost = async (req, res) => {
- console.log(req.body);
+  console.log(req.body);
   Post.create({
     title: req.body.title,
-    content: req.body.content,
-    attachment: req.body.attachment,
-    userId: req.body.id
+    // content: req.body.content,
+    // attachment: req.body.attachment,
+     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+    userId: req.body.id,
   })
     .then(() => {
       res.status(201).send({ message: "💾 Article enregistré ✔️" });
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).send({
         message: err.message || "💥 Impossible d'enregistrer l'article 💥",
       });
@@ -37,6 +51,20 @@ exports.addPost = async (req, res) => {
   //   console.log(err);
   // }
 };
+// try {
+//   await Post.create({
+//     title: req.body.title,
+//     content: req.body.content,
+//     attachment: req.body.content,
+//     id: req.body.userId
+//   });
+//   res.json({
+//     message: "Product Created",
+//   });
+// } catch (err) {
+//   console.log(err);
+// }
+// };
 
 exports.getAllPost = (req, res) => {
   console.log("📋  Liste des articles demandée 📜");
@@ -103,6 +131,17 @@ exports.modifyPost = async (req, res) => {
     console.log(err);
   }
 };
+
+// exports.modifySauce = (req, res, next) => {
+//   const sauceObject = req.file ?
+//   {
+//     ...JSON.parse(req.body.sauce),
+//     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+//   } : { ...req.body };
+//   Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
+//   .then(() => res.status(200).json({ message: 'Objet modifié !'}))
+//   .catch(error => res.status(400).json({ error }));
+// };
 
 // Delete product by id
 exports.deletePost = async (req, res) => {

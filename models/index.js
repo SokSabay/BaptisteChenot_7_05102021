@@ -27,6 +27,6 @@ db.messages.belongsTo(db.posts);
 db.users.hasMany(db.messages);
 db.messages.belongsTo(db.users);
 
-// db.sequelize.sync({ alter: true });
+
 
 module.exports = db;
