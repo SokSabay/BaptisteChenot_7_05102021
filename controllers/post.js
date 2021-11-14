@@ -1,30 +1,14 @@
 // Import Product Model
-
+const fs = require("fs");
 const db = require("../models/");
 
 const Post = db.posts;
-const User = db.users;
-// Get all products
-// exports.addPost = async (req, res) => {
-//   const postObject = JSON.parse(req.body.post);
-//   delete postObject.id;
-//   const post = new Post({
-//     ...postObject,
-//     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.imageUrl}`
-//   });
 
-//   post.save()
-//   .then(() => res.status(201).json({ message: "Objet enregistré !" }))
-//   .catch((error) => res.status(400).json({ error }));
-
-// }
 
 exports.addPost = async (req, res) => {
   console.log(req.body);
   Post.create({
     title: req.body.title,
-    // content: req.body.content,
-    // attachment: req.body.attachment,
      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
     userId: req.body.id,
   })
@@ -37,34 +21,9 @@ exports.addPost = async (req, res) => {
         message: err.message || "💥 Impossible d'enregistrer l'article 💥",
       });
     });
-  // try {
-  //   await Post.create({
-  //     title: req.body.title,
-  //     content: req.body.content,
-  //     attachment: req.body.content,
-  //     id: req.body.userId
-  //   });
-  //   res.json({
-  //     message: "Product Created",
-  //   });
-  // } catch (err) {
-  //   console.log(err);
-  // }
+
 };
-// try {
-//   await Post.create({
-//     title: req.body.title,
-//     content: req.body.content,
-//     attachment: req.body.content,
-//     id: req.body.userId
-//   });
-//   res.json({
-//     message: "Product Created",
-//   });
-// } catch (err) {
-//   console.log(err);
-// }
-// };
+
 
 exports.getAllPost = (req, res) => {
   console.log("📋  Liste des articles demandée 📜");
@@ -100,37 +59,77 @@ exports.getOnePost = (req, res) => {
       });
     });
 };
+// exports.modifyPost = async (req, res) => {
+//   try {
+//     await Post.update(req.body, {
+//       where: {
+//         id: req.params.id,
+//       },
 
-// Create a new product
+//     });
+//     res.json({
+//       message: "Product Updated",
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
-// try {
-//   await Post.create({
-//     title: req.body.title,
-//     content: req.body.content,
-//     attachment: req.body.content
-//   });
-//   res.json({
-//     message: "Product Created",
-//   });
-// } catch (err) {
-//   console.log(err);
-// }
-
-// Update product by id
-exports.modifyPost = async (req, res) => {
-  try {
-    await Post.update(req.body, {
-      where: {
-        id: req.params.id,
-      },
+exports.modifyPost = (req, res) => {
+  console.log(
+    "📋  Modification de l'articles n°" + req.params.id + " demandée 📜"
+  );
+  Post.findOne({
+    where: { id: req.params.id },
+  })
+    .then((data) => {
+     
+        data.title = req.body.title;
+  
+        data.imageUrl =  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        data
+          .save()
+          .then(
+            console.log("✏️  Article n°" + req.params.id + " modifié ! ✔️")
+          );
+        res.send(data);
+      
+    })
+    .catch(() => {
+      res.status(500).send({
+        message:
+          "💥 Erreur interne au serveur 💥 ECHEC RECUPERATION DES ARTICLES 💥",
+      });
     });
-    res.json({
-      message: "Product Updated",
-    });
-  } catch (err) {
-    console.log(err);
-  }
 };
+
+
+
+
+
+
+
+
+
+
+// exports.modifyPost =  (req, res) => {
+// Post.update(req.body, {
+//   where: {
+//     id: req.params.id,
+//   },
+//   // title: req.body.title,
+
+//   // imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+// })
+//   .then(console.log("Message modifié"))
+//   .catch(() => {
+//     res.status(500).send({
+//       message:
+//         "💥 Erreur interne au serveur 💥 ECHEC RECUPERATION DES ARTICLES 💥",
+//     });
+//   });
+    
+// };
 
 // exports.modifySauce = (req, res, next) => {
 //   const sauceObject = req.file ?
@@ -145,19 +144,39 @@ exports.modifyPost = async (req, res) => {
 
 // Delete product by id
 exports.deletePost = async (req, res) => {
-  try {
-    await Post.destroy({
-      where: {
-        id: req.params.id,
-      },
-    });
-    res.json({
-      message: "Product Deleted",
-    });
-  } catch (err) {
-    console.log(err);
-  }
+ Post.findOne({
+   where: {
+     id: req.params.id,
+   },
+ })
+   .then((data) => {
+     console.log(data);
+     // imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+     const oldImg = "./images/" + data.imageUrl.split("/images/")[1];
+     fs.unlinkSync(oldImg);
+     data.destroy().then(() => {
+       console.log("💣  Article supprimé ! ✔️");
+       res.send({ message: "💣  Article supprimé ! ✔️" });
+     });
+   })
+   .catch((err) => {
+     console.log(err);
+   });
+    
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Permet de liker disliker un post
 exports.like = (req, res, next) => {
