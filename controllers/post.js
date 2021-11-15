@@ -4,13 +4,14 @@ const db = require("../models/");
 
 const Post = db.posts;
 
-
 exports.addPost = async (req, res) => {
   console.log(req.body);
   Post.create({
     title: req.body.title,
-     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-    userId: req.body.id,
+    imageUrl: `${req.protocol}://${req.get("host")}/images/${
+      req.file.filename
+    }`,
+    userId: req.user.id,
   })
     .then(() => {
       res.status(201).send({ message: "💾 Article enregistré ✔️" });
@@ -21,9 +22,7 @@ exports.addPost = async (req, res) => {
         message: err.message || "💥 Impossible d'enregistrer l'article 💥",
       });
     });
-
 };
-
 
 exports.getAllPost = (req, res) => {
   console.log("📋  Liste des articles demandée 📜");
@@ -83,17 +82,17 @@ exports.modifyPost = (req, res) => {
     where: { id: req.params.id },
   })
     .then((data) => {
-     
-        data.title = req.body.title;
-  
-        data.imageUrl =  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-        data
-          .save()
-          .then(
-            console.log("✏️  Article n°" + req.params.id + " modifié ! ✔️")
-          );
-        res.send(data);
-      
+      data.title = req.body.title;
+      if (req.file) {
+        data.imageUrl = `${req.protocol}://${req.get("host")}/images/${
+          req.file.filename
+        }`;
+      }
+
+      data
+        .save()
+        .then(console.log("✏️  Article n°" + req.params.id + " modifié ! ✔️"));
+      res.send(data);
     })
     .catch(() => {
       res.status(500).send({
@@ -102,15 +101,6 @@ exports.modifyPost = (req, res) => {
       });
     });
 };
-
-
-
-
-
-
-
-
-
 
 // exports.modifyPost =  (req, res) => {
 // Post.update(req.body, {
@@ -128,7 +118,7 @@ exports.modifyPost = (req, res) => {
 //         "💥 Erreur interne au serveur 💥 ECHEC RECUPERATION DES ARTICLES 💥",
 //     });
 //   });
-    
+
 // };
 
 // exports.modifySauce = (req, res, next) => {
@@ -144,26 +134,26 @@ exports.modifyPost = (req, res) => {
 
 // Delete product by id
 exports.deletePost = async (req, res) => {
- Post.findOne({
-   where: {
-     id: req.params.id,
-   },
- })
-   .then((data) => {
-     console.log(data);
-     // imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-     const oldImg = "./images/" + data.imageUrl.split("/images/")[1];
-     fs.unlinkSync(oldImg);
-     data.destroy().then(() => {
-       console.log("💣  Article supprimé ! ✔️");
-       res.send({ message: "💣  Article supprimé ! ✔️" });
-     });
-   })
-   .catch((err) => {
-     console.log(err);
-   });
-    
+  const condition = {
+    id: req.params.id,
+  };
+
+  if (!req.user.isAdmin) {
+    condition.userId = req.user.id;
+  }
+  Post.findOne({
+    where:condition,
+  })
+    .then((data) => {
+      console.log(data);
+      const oldImg = "./images/" + data.imageUrl.split("/images/")[1];
+      fs.unlinkSync(oldImg);
+      data.destroy().then(() => {
+        console.log("💣  Article supprimé ! ✔️");
+        res.send({ message: "💣  Article supprimé ! ✔️" });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
-
-
-

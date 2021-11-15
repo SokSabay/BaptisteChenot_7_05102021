@@ -10,16 +10,23 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
         type: DataTypes.STRING(255),
         allowNull: false,
+        validate: {
+          isEmail: true,
+        },
       },
       username: {
         unique: true,
         type: DataTypes.STRING(16),
         allowNull: false,
+        validate: {
+          len: [6, 12],
+        },
         // allowNull defaults to true
       },
       password: {
         type: DataTypes.STRING(255),
         allowNull: false,
+
         // allowNull defaults to true
       },
       isAdmin: {
@@ -43,6 +50,12 @@ module.exports = (sequelize, DataTypes) => {
       // timestamps: false,
     }
   );
+  User.prototype.toJSON = function () {
+    var values = Object.assign({}, this.get());
+
+    delete values.password;
+    return values;
+  };
   return User;
 };
 

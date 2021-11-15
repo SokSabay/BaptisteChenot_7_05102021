@@ -6,16 +6,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(50),
         allowNull: false,
       },
-      // attachment: {
-      //   type: DataTypes.STRING(120),
-      //   allowNull: false,
-      //   // allowNull defaults to true
-      // },
-      // imageUrl: {
-      //   type: DataTypes.STRING(120),
-      //   allowNull: false,
-      //   // allowNull defaults to true
-      // },
 
       imageUrl: {
         type: DataTypes.STRING,
