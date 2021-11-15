@@ -9,3 +9,6 @@ Dans le fichier .env, veuillez rentrer le host, les identifiants de votre utilis
 
 ## Installation
 Démarrer nodemon server pour avoir accès au serveur de développement. L'application va se recharger automatiquement si vous modifiez un fichier source.
+
+## Lien vers le FRONTEND
+https://github.com/SokSabay/BaptisteChenot_7_05102021_FRONTEND
