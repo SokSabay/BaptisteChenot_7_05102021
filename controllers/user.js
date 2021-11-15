@@ -7,6 +7,49 @@ const db = require("../models/");
 const User = db.users;
 
 exports.signup = (req, res, next) => {
+    if (!req.body.email) {
+      res.status(400).send({
+        message: "Veuillez renseigner une adresse email",
+      });
+      console.log("Caca");
+      return;
+    }
+    if (!req.body.username) {
+      res.status(400).send({
+        message: "Veuillez renseigner un username",
+      });
+      console.log("username");
+      return;
+    }
+    if (!req.body.password) {
+      res.status(400).send({
+        message: "Veuillez renseigner un password",
+      });
+    console.log("uspasswordername");
+      return;
+    }
+    // if (!req.body.email) {
+    //   res.status(404).send({
+    //     message: "⚠️ Veuillez renseigner un nom ⚠️",
+    //   });
+    // }
+    // if (!req.body.username) {
+    //   res.status(404).send({
+    //     message: "⚠️ Veuillez renseigner une adresse email ⚠️",
+    //   });
+    // }
+    // if (!req.body.password) {
+    //   res.status(404).send({
+    //     message: "⚠️ Veuillez renseigner un mot de passe ⚠️",
+    //   });
+    // }
+    //  User.findOne({ where: { email: req.body.email } }).then((email) => {
+    //    if (email) {
+    //      res.status(500).send({
+    //        message: "⚠️ Cette adresse mail est déjà liée à un compte ⚠️",
+    //      });
+    //    }
+    //  });
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
@@ -38,6 +81,7 @@ exports.login = (req, res, next) => {
             userId: user.id,
             email: user.email,
             username: user.username,
+            isAdmin: user.isAdmin,
             token: jwt.sign({ userId: user.id }, randomToken, {
               expiresIn: "24h",
             }),
