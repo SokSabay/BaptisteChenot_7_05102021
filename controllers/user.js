@@ -7,27 +7,6 @@ const db = require("../models/");
 const User = db.users;
 
 exports.signup = (req, res, next) => {
-  // if (!req.body.email) {
-  //   res.status(400).send({
-  //     message: "Veuillez renseigner une adresse email",
-  //   });
-
-  //   return;
-  // }
-  // if (!req.body.username) {
-  //   res.status(400).send({
-  //     message: "Veuillez renseigner un username",
-  //   });
-
-  //   return;
-  // }
-  // if (!req.body.password) {
-  //   res.status(400).send({
-  //     message: "Veuillez renseigner un password",
-  //   });
-
-  // return;
-  // }
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {

@@ -17,7 +17,7 @@ db.messages = require("./Message.js")(sequelize, Sequelize);
 //   as: "users",
 // });
 
-
+// Création des relations entre les différents table
 db.users.hasMany(db.posts);
 db.posts.belongsTo(db.users);
 

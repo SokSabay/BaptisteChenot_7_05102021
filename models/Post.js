@@ -30,6 +30,3 @@ module.exports = (sequelize, DataTypes) => {
   );
   return Post;
 };
-
-// Export model Product
-// module.exports = Post;

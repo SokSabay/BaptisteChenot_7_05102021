@@ -58,21 +58,6 @@ exports.getOnePost = (req, res) => {
       });
     });
 };
-// exports.modifyPost = async (req, res) => {
-//   try {
-//     await Post.update(req.body, {
-//       where: {
-//         id: req.params.id,
-//       },
-
-//     });
-//     res.json({
-//       message: "Product Updated",
-//     });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
 
 exports.modifyPost = (req, res) => {
   console.log(
@@ -101,36 +86,6 @@ exports.modifyPost = (req, res) => {
       });
     });
 };
-
-// exports.modifyPost =  (req, res) => {
-// Post.update(req.body, {
-//   where: {
-//     id: req.params.id,
-//   },
-//   // title: req.body.title,
-
-//   // imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
-// })
-//   .then(console.log("Message modifié"))
-//   .catch(() => {
-//     res.status(500).send({
-//       message:
-//         "💥 Erreur interne au serveur 💥 ECHEC RECUPERATION DES ARTICLES 💥",
-//     });
-//   });
-
-// };
-
-// exports.modifySauce = (req, res, next) => {
-//   const sauceObject = req.file ?
-//   {
-//     ...JSON.parse(req.body.sauce),
-//     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-//   } : { ...req.body };
-//   Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
-//   .then(() => res.status(200).json({ message: 'Objet modifié !'}))
-//   .catch(error => res.status(400).json({ error }));
-// };
 
 // Delete product by id
 exports.deletePost = async (req, res) => {
