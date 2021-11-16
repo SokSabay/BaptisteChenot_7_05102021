@@ -26,7 +26,7 @@ exports.signup = (req, res, next) => {
   //     message: "Veuillez renseigner un password",
   //   });
 
-    // return;
+  // return;
   // }
   bcrypt
     .hash(req.body.password, 10)
@@ -122,5 +122,19 @@ exports.modifyUser = async (req, res) => {
     } else {
       //handleHttpErrors(err.message);
     }
+  }
+};
+exports.deleteUser = async (req, res) => {
+  try {
+    await User.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+    res.json({
+      message: "User Deleted",
+    });
+  } catch (err) {
+    console.log(err);
   }
 };
